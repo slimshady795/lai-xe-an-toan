@@ -1,0 +1,30 @@
+header {
+  background: #a72e28;
+  .header-content {
+    display: flex;
+    gap: 20px;
+    &-item {
+      padding: 16px 20px;
+      font-size: 13px;
+      font-weight: bold;
+      color: white;
+      text-transform: uppercase;
+      position: relative;
+      overflow: hidden;
+      &::after {
+        content: "";
+        display: block;
+        position: absolute;
+        height: 4px;
+        width: 100%;
+        background: blue;
+        left: -100%;
+        bottom: 0;
+        transition: left 0.15s ease-in-out;
+      }
+      &:hover::after {
+        left: 0;
+      }
+    }
+  }
+}

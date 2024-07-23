@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import { PATHS } from '../../routes';
 
-import './style.css';
+import './style.scss';
 
 const items = [{
   label: 'Trang chủ',

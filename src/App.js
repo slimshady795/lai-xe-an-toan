@@ -12,7 +12,7 @@ import B2 from './pages/b2';
 import C from './pages/c';
 import Upgrade from './pages/upgrade';
 
-import './App.css';
+import './App.scss';
 
 function App() {
   return (
@@ -21,7 +21,7 @@ function App() {
         <Header />
         <Body>
           <Routes>
-            <Route path={PATHS.HOME} element={Home} />
+            <Route path={PATHS.HOME} Component={Home} />
             <Route path={PATHS.INTRODUCTION} Component={Introduction} />
             <Route path={PATHS.B1} Component={B1} />
             <Route path={PATHS.B2} Component={B2} />
