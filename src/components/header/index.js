@@ -1,5 +1,6 @@
+import clsx from 'clsx';
 import React from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { PATHS } from '../../routes';
 
 import './style.scss';
@@ -10,6 +11,9 @@ const items = [{
 }, {
   label: 'Giới thiệu',
   url: PATHS.INTRODUCTION
+}, {
+  label: 'Mô phỏng',
+  url: PATHS.SIMULATION
 }, {
   label: 'Học bằng B1',
   url: PATHS.B1
@@ -25,17 +29,19 @@ const items = [{
 }]
 
 const Header = () => {
+  const location = useLocation();
+  console.log(location);
   return (
     <>
-    <div className='container header-info'>
-<div className='number-phone'>
-  
-</div>
-    </div>
+      <div className='container header-info'>
+        <div className='number-phone'>
+
+        </div>
+      </div>
       <header>
         <div className='container header-content'>
           {items.map((item, idx) => (
-            <Link key={idx} className='header-content-item' to={item?.url}>
+            <Link key={idx} className={clsx('header-content-item', location?.pathname === item?.url && 'active')} to={item?.url}>
               <p>{item?.label}</p>
             </Link>
           ))}
