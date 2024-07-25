@@ -10,6 +10,7 @@
     "antd": "^5.19.3",
     "axios": "^1.7.2",
     "clsx": "^2.1.1",
+    "lodash": "^4.17.21",
     "moment": "^2.30.1",
     "public-google-sheets-parser": "^1.5.4",
     "react": "^18.3.1",

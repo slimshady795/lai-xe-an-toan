@@ -12,7 +12,7 @@ const items = [{
   label: 'Giới thiệu',
   url: PATHS.INTRODUCTION
 }, {
-  label: 'Mô phỏng',
+  label: 'Học 120 câu mô phỏng',
   url: PATHS.SIMULATION
 }, {
   label: 'Học bằng B1',
@@ -30,7 +30,7 @@ const items = [{
 
 const Header = () => {
   const location = useLocation();
-  console.log(location);
+
   return (
     <>
       <div className='container header-info'>
