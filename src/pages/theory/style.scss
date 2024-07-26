@@ -1,0 +1,134 @@
+.theory-page {
+  display: flex;
+  align-items: flex-start;
+  gap: 48px;
+  .content-left {
+    flex: 1;
+    .question {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      &-title {
+        font-size: 20px;
+        font-weight: bold;
+        color: #216cb7fa;
+      }
+      &-answer {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        &-item {
+          position: relative;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          cursor: pointer;
+          font-size: 18px;
+          transform: scale(1);
+          transition: all 0.15s ease-in-out;
+          padding: 12px 12px 12px 40px;
+          &:hover {
+            transform: scale(1.03);
+          }
+          .anticon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+          }
+          &.correct {
+            background-color: #28a7457a;
+            .anticon {
+              svg {
+                color: green;
+              }
+            }
+          }
+          &.incorrect {
+            background-color: #ffbabb;
+            .anticon {
+              svg {
+                color: red;
+              }
+            }
+          }
+        }
+      }
+    }
+    .explanation {
+      margin-top: 24px;
+    }
+    .action {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 32px;
+      button:disabled {
+        visibility: hidden;
+      }
+    }
+  }
+  .content-right {
+    width: 40%;
+    .statistical {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      &-title {
+      }
+      &-answer {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        .correct,
+        .incorrect {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          & .anticon svg {
+            font-size: 18px;
+          }
+          span {
+            font-size: 20px;
+          }
+        }
+        .correct .anticon svg {
+          color: green;
+        }
+        .incorrect .anticon svg {
+          color: red;
+        }
+      }
+    }
+    .question-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      max-height: 500px;
+      overflow: auto;
+      margin-top: 24px;
+      &-item {
+        padding: 6px;
+        min-width: 36px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+        text-align: center;
+        font-weight: bold;
+        background: #eeeeee;
+        transition: all 0.15s ease-in-out;
+        &.active {
+          background-color: #a72e28;
+          color: white;
+        }
+        &.correct {
+          background-color: #28a7457a;
+        }
+        &.incorrect {
+          background-color: #ffbabb;
+        }
+        &.normal:hover {
+          background-color: #eebbb8;
+        }
+      }
+    }
+  }
+}

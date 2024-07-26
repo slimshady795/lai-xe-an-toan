@@ -8,6 +8,7 @@ import Footer from './components/footer';
 
 import Introduction from './pages/introduction';
 import Simulation from './pages/simulation';
+import Theory from './pages/theory';
 import B1 from './pages/b1';
 import B2 from './pages/b2';
 import C from './pages/c';
@@ -25,6 +26,7 @@ function App() {
             <Route path={PATHS.HOME} Component={Home} />
             <Route path={PATHS.INTRODUCTION} Component={Introduction} />
             <Route path={PATHS.SIMULATION} Component={Simulation} />
+            <Route path={PATHS.THEORY} Component={Theory} />
             <Route path={PATHS.B1} Component={B1} />
             <Route path={PATHS.B2} Component={B2} />
             <Route path={PATHS.C} Component={C} />

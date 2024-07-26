@@ -174,17 +174,18 @@ const Simulation = () => {
             )}
             <div className='action'>
               <Button
+                className='btn-prev'
                 shape="default"
                 size='large'
-                icon={!disablePrev && <LeftOutlined />}
+                icon={<LeftOutlined />}
                 iconPosition='start'
                 onClick={onPrevious}
                 disabled={disablePrev}
               >
-                {disablePrev ? '-' : `Câu ${cQuestion - 1}`}
+                Câu {cQuestion - 1}
               </Button>
               <Button
-                className='space-btn'
+                className='btn-space'
                 shape="primary"
                 size='large'
                 onClick={onSpace}
@@ -193,14 +194,15 @@ const Simulation = () => {
                 SPACE
               </Button>
               <Button
+                className='btn-next'
                 shape="default"
                 size='large'
-                icon={!disableNext && <RightOutlined />}
+                icon={<RightOutlined />}
                 iconPosition='end'
                 onClick={onNext}
                 disabled={disableNext}
               >
-                {disableNext ? '-' : `Câu ${cQuestion + 1}`}
+                Câu {cQuestion + 1}
               </Button>
             </div>
             <p>đáp án đúng từ giây {formatTime(+cQuestionInfo.time_1)} đến giây {formatTime(+cQuestionInfo.time_2)}</p>

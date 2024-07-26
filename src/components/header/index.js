@@ -15,18 +15,24 @@ const items = [{
   label: 'Học 120 câu mô phỏng',
   url: PATHS.SIMULATION
 }, {
+  label: 'Học 600 câu lý thuyết',
+  url: PATHS.THEORY
+}, {
   label: 'Học bằng B1',
   url: PATHS.B1
 }, {
   label: 'Học bằng B2',
   url: PATHS.B2
-}, {
-  label: 'Học bằng C',
-  url: PATHS.C
-}, {
-  label: 'Nâng dấu',
-  url: PATHS.UPGRADE
-}]
+},
+  // {
+  //   label: 'Học bằng C',
+  //   url: PATHS.C
+  // },
+  // {
+  //   label: 'Nâng dấu',
+  //   url: PATHS.UPGRADE
+  // }
+]
 
 const Header = () => {
   const location = useLocation();
