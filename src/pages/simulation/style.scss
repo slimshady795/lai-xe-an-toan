@@ -8,11 +8,13 @@
     .title {
       font-size: 24px;
     }
-    video {
+    .ant-spin-nested-loading {
       margin-top: 20px;
       margin-bottom: -4px;
-      min-height: 375px;
-      max-width: 100%;
+      video {
+        min-height: 430px;
+        max-width: 100%;
+      }
     }
     .result-range {
       position: relative;
@@ -89,13 +91,14 @@
         }
       }
       &-time {
+        display: flex;
         &-data {
           color: #008e2c;
         }
         &-duration {
           margin-left: 8px;
           padding-left: 8px;
-          border-left: 2px solid black;
+          border-left: 1px solid black;
         }
       }
     }
@@ -145,10 +148,16 @@
         span {
           position: absolute;
           top: 0;
-          right: 4px;
-          font-size: 20px;
-          line-height: 20px;
+          right: 0;
+          font-size: 16px;
           color: red;
+          background: white;
+          width: 20px;
+          height: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          opacity: 0.8;
         }
         &.active,
         &.answered {
