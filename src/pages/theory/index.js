@@ -30,13 +30,15 @@ const Theory = () => {
   const [answered, setAnswered] = useState({});
 
   const cChapter = CHAPTERS?.[chapter];
-  const isParalysis = isArray(cChapter?.questions)
+  const cChapterQuestions = cChapter?.questions;
+  const isParalysis = isArray(cChapterQuestions)
+  const paralysisIndex = isParalysis ? cChapterQuestions?.findIndex(item => item === order) : -1;
 
   const cQuestion = THEORY_QUESTIONS?.[order - 1];
   const cResult = answered?.[order];
 
-  const disablePrev = order <= 1;
-  const disableNext = order >= THEORY_QUESTIONS?.length;
+  const disablePrev = isParalysis ? paralysisIndex <= 0 : order <= 1;
+  const disableNext = isParalysis ? paralysisIndex >= cChapterQuestions?.length : order >= THEORY_QUESTIONS?.length;
 
   const onAnswer = (idx) => {
     setAnswered(prev => ({
@@ -50,21 +52,20 @@ const Theory = () => {
 
   const onPrevious = () => {
     if (order > 1) {
-      setOrder(prev => prev - 1);
+      setOrder(prev => isParalysis ? cChapterQuestions?.[paralysisIndex - 1] : prev - 1);
     }
   }
 
   const onNext = () => {
     if (order < THEORY_QUESTIONS?.length) {
-      setOrder(prev => prev + 1);
+      setOrder(prev => isParalysis ? cChapterQuestions?.[paralysisIndex + 1] : prev + 1);
     }
   }
 
   useEffect(() => {
-    setOrder(isParalysis ? cChapter?.questions?.[0] : cChapter?.start);
+    setOrder(isParalysis ? cChapterQuestions?.[0] : cChapter?.start);
     setAnswered({});
   }, [chapter])
-
 
   return (
     <div className='theory-page'>
@@ -83,11 +84,11 @@ const Theory = () => {
       <div className='content-left'>
         <div
           className='title'
-          dangerouslySetInnerHTML={{ __html: `<b>Chương ${chapter + 1}:</b> ${isParalysis ? cChapter?.questions?.length : cChapter?.questions + 1} câu về ${cChapter?.title}` }}
+          dangerouslySetInnerHTML={{ __html: `${isParalysis ? cChapterQuestions?.length : cChapterQuestions + 1} câu về ${cChapter?.title}` }}
         />
         <div className='question-list'>
           {isParalysis
-            ? cChapter?.questions.map((q) => {
+            ? cChapterQuestions.map((q) => {
               const qOrder = q;
               return (
                 <QuestionItem
@@ -98,7 +99,7 @@ const Theory = () => {
                 />
               );
             })
-            : THEORY_QUESTIONS.slice(cChapter?.start - 1, cChapter?.start + cChapter?.questions).map((_, idx) => {
+            : THEORY_QUESTIONS.slice(cChapter?.start - 1, cChapter?.start + cChapterQuestions).map((_, idx) => {
               const qOrder = idx + cChapter?.start;
               return (
                 <QuestionItem
@@ -154,7 +155,7 @@ const Theory = () => {
             onClick={onPrevious}
             disabled={disablePrev}
           >
-            Câu {order - 1}
+            Câu {isParalysis ? cChapterQuestions?.[paralysisIndex - 1] : order - 1}
           </Button>
           <Button
             className='btn-next'
@@ -165,7 +166,7 @@ const Theory = () => {
             onClick={onNext}
             disabled={disableNext}
           >
-            Câu {order + 1}
+            Câu {isParalysis ? cChapterQuestions?.[paralysisIndex + 1] : order + 1}
           </Button>
         </div>
       </div>
