@@ -1,83 +1,147 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import clsx from 'clsx';
+import { Button } from 'antd';
+import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 
-import { PREFIX_ANSWER, THEORY_QUESTIONS } from './utils';
+import { CHAPTERS, THEORY_QUESTIONS } from './utils';
 
 import './style.scss';
-import clsx from 'clsx';
-import { CheckOutlined, CloseOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
-import { Button } from 'antd';
+import { isArray } from 'lodash';
+
+const QuestionItem = ({ order, cOrder, answered, onClick }) => {
+  const rItem = answered?.[order];
+  return (
+    <div
+      key={order}
+      className={clsx(
+        'question-list-item',
+        order === cOrder ? 'active' : (rItem ? (rItem?.isCorrect ? 'correct' : 'incorrect') : 'normal')
+      )}
+      onClick={onClick}
+    >
+      {order}
+    </div>
+  );
+}
 
 const Theory = () => {
+  const [chapter, setChapter] = useState(0);
   const [order, setOrder] = useState(1);
-  const [result, setResult] = useState({});
+  const [answered, setAnswered] = useState({});
 
-  const question = THEORY_QUESTIONS?.[order - 1];
-  const answers = question?.answers || [];
-  const resultOrder = result?.[order];
+  const cChapter = CHAPTERS?.[chapter];
+  const isParalysis = isArray(cChapter?.questions)
+
+  const cQuestion = THEORY_QUESTIONS?.[order - 1];
+  const cResult = answered?.[order];
 
   const disablePrev = order <= 1;
   const disableNext = order >= THEORY_QUESTIONS?.length;
 
   const onAnswer = (idx) => {
-    setResult(prev => ({
+    setAnswered(prev => ({
       ...prev,
       [order]: {
-        answer: idx,
-        title: answers?.[idx],
-        isCorrect: question?.correct === idx,
+        answered: idx,
+        isCorrect: cQuestion?.correctIdx === idx
       }
-    }));
+    }))
   }
 
   const onPrevious = () => {
-    order > 1 && setOrder(prev => prev - 1);
+    if (order > 1) {
+      setOrder(prev => prev - 1);
+    }
   }
 
   const onNext = () => {
-    order < THEORY_QUESTIONS?.length && setOrder(prev => prev + 1);
+    if (order < THEORY_QUESTIONS?.length) {
+      setOrder(prev => prev + 1);
+    }
   }
 
+  useEffect(() => {
+    setOrder(isParalysis ? cChapter?.questions?.[0] : cChapter?.start);
+    setAnswered({});
+  }, [chapter])
 
-  const statistical = useMemo(() => {
-    return Object.values(result).reduce((acc, curr) => {
-      const key = curr?.isCorrect ? 'correct' : 'incorrect';
-      return ({ ...acc, [key]: acc?.[key] + 1 })
-    }, { correct: 0, incorrect: 0 })
-  }, [result]);
 
   return (
     <div className='theory-page'>
+      <div className='chapter'>
+        {CHAPTERS.map((_, cIdx) => (
+          <Button
+            key={cIdx}
+            type={chapter === cIdx ? "primary" : 'default'}
+            size='large'
+            onClick={() => setChapter(cIdx)}
+          >
+            Chương {cIdx + 1}
+          </Button>
+        ))}
+      </div>
       <div className='content-left'>
+        <div
+          className='title'
+          dangerouslySetInnerHTML={{ __html: `<b>Chương ${chapter + 1}:</b> ${isParalysis ? cChapter?.questions?.length : cChapter?.questions + 1} câu về ${cChapter?.title}` }}
+        />
+        <div className='question-list'>
+          {isParalysis
+            ? cChapter?.questions.map((q) => {
+              const qOrder = q;
+              return (
+                <QuestionItem
+                  order={q}
+                  cOrder={order}
+                  answered={answered}
+                  onClick={() => setOrder(qOrder)}
+                />
+              );
+            })
+            : THEORY_QUESTIONS.slice(cChapter?.start - 1, cChapter?.start + cChapter?.questions).map((_, idx) => {
+              const qOrder = idx + cChapter?.start;
+              return (
+                <QuestionItem
+                  order={qOrder}
+                  cOrder={order}
+                  answered={answered}
+                  onClick={() => setOrder(qOrder)}
+                />
+              );
+            })}
+        </div>
+      </div>
+      <div className='content-right'>
         <div className='question'>
           <p className='question-title'>
-            Câu {order}: {question?.title}
+            Câu {order}: {cQuestion?.title}
           </p>
+          {cQuestion?.img && (
+            <img className='question-image' src={cQuestion?.img} alt="" />
+          )}
           <div className='question-answer'>
-            {question?.answers.map((a, aIdx) => {
-              const isAnswered = resultOrder?.answer === aIdx;
+            {cQuestion?.answers.map((a, aIdx) => {
+              const isAnswered = cResult?.answered === aIdx;
               return (
                 <div
                   key={aIdx}
                   className={clsx(
                     'question-answer-item',
-                    isAnswered && (resultOrder?.isCorrect ? 'correct' : 'incorrect')
+                    isAnswered && (cResult?.isCorrect ? 'correct' : 'incorrect')
                   )}
                   onClick={() => onAnswer(aIdx)}
                 >
-                  {isAnswered && (
-                    resultOrder?.isCorrect ? <CheckOutlined /> : <CloseOutlined />
-                  )}
                   <p>
-                    {PREFIX_ANSWER?.[aIdx]} - {a}
+                    {aIdx + 1}. {a}
                   </p>
                 </div>
               )
             })}
           </div>
         </div>
-        {resultOrder && (
+        {!!cResult && cQuestion?.explanation && (
           <p className='explanation'>
-            <b>Giải thích:</b> {question?.explanation}
+            <b>Giải thích:</b> {cQuestion?.explanation}
           </p>
         )}
         <div className='action'>
@@ -103,40 +167,6 @@ const Theory = () => {
           >
             Câu {order + 1}
           </Button>
-        </div>
-      </div>
-      <div className='content-right'>
-        <div className='statistical'>
-          <p className='statistical-title'>Đã trả lời: {Object.keys(result)?.length} câu</p>
-          <div className='statistical-answer'>
-            <div className='correct'>
-              <CheckOutlined />
-              <span>{statistical?.correct}</span>
-            </div>
-            -
-            <div className='incorrect'>
-              <CloseOutlined />
-              <span>{statistical?.incorrect}</span>
-            </div>
-          </div>
-        </div>
-        <div className='question-list'>
-          {THEORY_QUESTIONS.map((_, qIdx) => {
-            const qOrder = qIdx + 1;
-            const rItem = result?.[qOrder];
-            return (
-              <div
-                key={qIdx}
-                className={clsx(
-                  'question-list-item',
-                  qOrder === order ? 'active' : (rItem ? (rItem?.isCorrect ? 'correct' : 'incorrect') : 'normal')
-                )}
-                onClick={() => setOrder(qOrder)}
-              >
-                {qOrder}
-              </div>
-            );
-          })}
         </div>
       </div>
     </div>

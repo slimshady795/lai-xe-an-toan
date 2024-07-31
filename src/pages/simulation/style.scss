@@ -1,3 +1,12 @@
+.suggest-simulation-modal {
+  width: 700px !important;
+  .ant-modal-body {
+    img {
+      width: 100%;
+    }
+  }
+}
+
 .simulation-page {
   display: flex;
   align-items: flex-start;
