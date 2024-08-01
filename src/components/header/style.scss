@@ -1,31 +1,54 @@
-header {
+.header-info {
   background: #a72e28;
-  .header-content {
+  .container {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+  }
+  &-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+  }
+}
+.header-content {
+  background: white;
+  padding: 16px 0;
+  position: sticky;
+  top: 0;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.15);
+  z-index: 2;
+  .container {
     display: flex;
     gap: 20px;
-    &-item {
-      padding: 16px 20px;
-      font-size: 13px;
-      font-weight: bold;
-      color: white;
-      text-transform: uppercase;
-      position: relative;
-      overflow: hidden;
-      &::after {
-        content: "";
-        display: block;
-        position: absolute;
-        height: 4px;
-        width: 100%;
-        background: blue;
-        left: -100%;
-        bottom: 0;
-        transition: left 0.15s ease-in-out;
-      }
-      &.active::after,
-      &:hover::after {
-        left: 0;
-      }
+  }
+  &-item {
+    padding: 16px 20px;
+    font-size: 13px;
+    font-weight: bold;
+    color: rgba(102, 102, 102, 0.85);
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+    &::after {
+      content: "";
+      display: block;
+      position: absolute;
+      height: 4px;
+      width: 100%;
+      background: #a72e28;
+      left: -100%;
+      bottom: 0;
+      border-radius: 4px;  
+      transition: left 0.15s ease-in-out;
+    }
+    &.active::after,
+    &:hover::after {
+      left: 0;
+    }
+    &.active {
+      color: #a72e28;
     }
   }
 }

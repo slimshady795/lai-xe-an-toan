@@ -6,7 +6,6 @@ import Header from './components/header';
 import Body from './components/body';
 import Footer from './components/footer';
 
-import Introduction from './pages/introduction';
 import Simulation from './pages/simulation';
 import Theory from './pages/theory';
 import B1 from './pages/b1';
@@ -15,6 +14,8 @@ import C from './pages/c';
 import Upgrade from './pages/upgrade';
 
 import './App.scss';
+import { Button } from 'antd';
+import { ArrowUpOutlined } from '@ant-design/icons';
 
 function App() {
   return (
@@ -24,7 +25,6 @@ function App() {
         <Body>
           <Routes>
             <Route path={PATHS.HOME} Component={Home} />
-            <Route path={PATHS.INTRODUCTION} Component={Introduction} />
             <Route path={PATHS.SIMULATION} Component={Simulation} />
             <Route path={PATHS.THEORY} Component={Theory} />
             <Route path={PATHS.B1} Component={B1} />
@@ -35,6 +35,15 @@ function App() {
         </Body>
         <Footer />
       </BrowserRouter>
+      <Button
+        className='btn-scroll-top'
+        type="default"
+        size='large'
+        icon={<ArrowUpOutlined />}
+        onClick={() => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+      />
     </div>
   );
 }

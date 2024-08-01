@@ -3,12 +3,32 @@ import axios from 'axios'; // Import Axios
 import Slider from "react-slick";
 
 import './style.scss';
+import { Button, Rate } from 'antd';
+import { LeftOutlined, RightOutlined } from '@ant-design/icons';
+import { PATHS } from '../../routes';
+import { Link } from 'react-router-dom';
 
 const arr = (list) => list ? Array.from(list) : []
 
 const resetImgSize = (url = '') => {
   const splitted = url.split('=')
   return url.replace(splitted?.[splitted?.length - 1], 'w0-h0');
+}
+
+const Section = ({ title = '', subTitle = '', children = null }) => {
+  return (
+    <div className='section'>
+      <div className='section-title'>
+        {title}
+      </div>
+      <div className='section-subtitle'>
+        {subTitle}
+      </div>
+      <div className='section-content'>
+        {children}
+      </div>
+    </div>
+  )
 }
 
 const Home = () => {
@@ -54,6 +74,16 @@ const Home = () => {
     autoplaySpeed: 4000,
     slidesToShow: 1,
     slidesToScroll: 1,
+    prevArrow: (
+      <span>
+        <Button type="default" size='large' shape="circle" icon={<LeftOutlined />} />
+      </span>
+    ),
+    nextArrow: (
+      <span>
+        <Button type="default" size='large' shape="circle" icon={<RightOutlined />} />
+      </span>
+    ),
   };
 
   return (
@@ -65,17 +95,68 @@ const Home = () => {
           </div>
         ))}
       </Slider>
-      <div className='blog'>
-        {blogs.map((b, bIdx) => (
-          <div key={bIdx} className='blog-item'>
-            <img src={b?.img} alt="" />
-            <div className='blog-item-content'>
-              <p className='title'>{b?.title}</p>
-              <p className='desc'>{b?.desc}</p>
+      <Section
+        title='Các Khóa Học Của Chúng Tôi'
+        subTitle='Lorem Ipsum chỉ đơn giản là một đoạn văn bản giả, được dùng vào việc trình bày và dàn trang phục vụ cho in ấn.'
+      >
+        <div className='course-list'>
+          {[
+            {
+              img: "https://mauweb.monamedia.net/daylaixeoto/wp-content/uploads/2019/10/course-04-300x225.jpg",
+              rate: 4.5,
+              path: PATHS.B1,
+              title: 'Bằng lái xe B1',
+              price: 10000000,
+            }, {
+              img: "https://mauweb.monamedia.net/daylaixeoto/wp-content/uploads/2019/10/course-03-300x225.jpg",
+              rate: 4.5,
+              path: PATHS.B2,
+              title: 'Bằng lái xe B2',
+              price: 10000000,
+            }, {
+              img: "https://mauweb.monamedia.net/daylaixeoto/wp-content/uploads/2019/10/course-02-300x225.jpg",
+              rate: 4.5,
+              path: PATHS.C,
+              title: 'Bằng lái xe C',
+              price: 10000000,
+            }, {
+              img: "https://mauweb.monamedia.net/daylaixeoto/wp-content/uploads/2019/10/course-01-300x225.jpg",
+              rate: 4.5,
+              path: PATHS.UPGRADE,
+              title: 'Nâng dấu',
+              price: 10000000,
+            }
+          ].map((item, iIdx) => (
+            <Link key={iIdx} className='course-list-item' to={item?.path}>
+              <img src={item?.img} alt="" />
+              <div className='course-list-item-content'>
+                <div className='rate'>
+                  <p>Lái xe</p>
+                  <Rate disabled defaultValue={item?.rate} />
+                </div>
+                <p className='title'>{item?.title}</p>
+                <p className='price'>{item?.price}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </Section>
+      <Section
+        title='Blog'
+        subTitle='Lorem Ipsum chỉ đơn giản là một đoạn văn bản giả, được dùng vào việc trình bày và dàn trang phục vụ cho in ấn.'
+      >
+        <div className='blog-list'>
+          {blogs.map((b, bIdx) => (
+            <div key={bIdx} className='blog-list-item'>
+              <img src={b?.img} alt="" />
+              <div className='blog-list-item-content'>
+                <p className='title'>{b?.title}</p>
+                <p className='desc'>{b?.desc}</p>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      </Section>
     </div>
   )
 }
