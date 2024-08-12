@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { InfoCircleOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
-import { Button, Modal, Spin } from 'antd';
+import { Button, Collapse, Modal, Spin } from 'antd';
 import React, { useEffect, useRef, useState } from 'react'
 import clsx from 'clsx';
 import { isNumber } from 'lodash';
@@ -8,9 +8,8 @@ import { isNumber } from 'lodash';
 import { CHAPTERS, formatTime, getResultRange as getResult, getStep as getStepTime, getTimeStamp, getVideo, PLAY_STATUS, QUESTIONS, RANGE } from './utils';
 import Control from './control';
 
-import IMG_FLAG from '../../assets/images/flag1.png';
-import IMG_FLsAG from '../../assets/images/suggest-simulation/1.PNG';
 import './style.scss';
+import { getImg } from '../../constants';
 
 const { NOT_START, STARTED, PLAYING, PAUSE } = PLAY_STATUS;
 
@@ -115,7 +114,6 @@ const Simulation = () => {
           <Spin tip="Loading..." spinning={loading}>
             <video
               ref={videoRef}
-              // poster="https://taplai.com/img/banner-hoc-120-tinh-huong-mo-phong.png"
               onLoadStart={() => setLoading(true)}
               onLoadedData={e => {
                 setPlayTime(prev => ({ ...prev, duration: formatTime(e?.target?.duration) }));
@@ -140,7 +138,7 @@ const Simulation = () => {
                   </div>
                   <img
                     className='result-range-flag'
-                    src={IMG_FLAG}
+                    src={getImg('flag1.png')}
                     alt=''
                     style={{ left: `${cAnswer?.time * 100 / playTime?.duration}%` }}
                   />
@@ -216,53 +214,54 @@ const Simulation = () => {
           <p className='total-score'>
             Tổng điểm: <span>{totalScore}</span>
           </p>
-          <div className='question'>
-            {QUESTIONS.map((_, idx) => {
-              const qIdx = idx + 1;
-              const qResult = answer?.[qIdx];
-              const chapIdx = CHAPTERS?.findIndex(c => qIdx === c?.start)
-              const chap = CHAPTERS?.[chapIdx]
-              return (
-                <>
-                  {chap && (
-                    <div key={chap?.title} className='chapter-item'>
-                      Chương {chapIdx + 1}: {chap?.title}
-                    </div>
-                  )}
-                  <div
-                    key={idx}
-                    className={clsx(
-                      'question-item',
-                      qResult ? 'answered' : qIdx === cQuestion ? 'active' : 'not-start'
-                    )}
-                    onClick={() => onSelectQuestion(qIdx)}
-                  >
-                    Câu {qIdx}
-                    {qResult && <span>{qResult?.point}</span>}
-                  </div>
-                </>
+          <Collapse
+            items={CHAPTERS.map((c, cIdx) => ({
+              label: `Chương ${cIdx + 1}: ${c?.title} (${c?.start} đến câu ${c?.start + c?.questions})`,
+              children: (
+                <div className='question'>
+                  {QUESTIONS.slice(c?.start - 1, c?.start + c?.questions).map((_, idx) => {
+                    const qIdx = c?.start + idx;
+                    const qResult = answer?.[qIdx];
+                    return (
+                      <div
+                        key={qIdx}
+                        className={clsx(
+                          'question-item',
+                          qResult ? 'answered' : qIdx === cQuestion ? 'active' : 'not-start'
+                        )}
+                        onClick={() => onSelectQuestion(qIdx)}
+                      >
+                        Câu {qIdx}
+                        {qResult && <span>{qResult?.point}</span>}
+                      </div>
+                    )
+                  })}
+                </div>
               )
-            })}
-          </div>
+            }))}
+            defaultActiveKey={0}
+          />
         </div>
       </div>
-      <Modal
-        className='suggest-simulation-modal'
-        centered
-        closable={false}
-        title='Gợi ý tình huống'
-        open={openSuggestModal}
-        maskClosable
-        cancelText="Đóng"
-        onCancel={() => setOpenSuggestModal(false)}
-        okButtonProps={{
-          style: {
-            display: 'none'
-          }
-        }}
-      >
-        <img src={IMG_FLsAG} alt='' />
-      </Modal>
+      {openSuggestModal && (
+        <Modal
+          className='suggest-simulation-modal'
+          centered
+          closable={false}
+          title='Gợi ý tình huống'
+          open
+          maskClosable
+          cancelText="Đóng"
+          onCancel={() => setOpenSuggestModal(false)}
+          okButtonProps={{
+            style: {
+              display: 'none'
+            }
+          }}
+        >
+          <img src={getImg(`suggest-simulation/${cQuestion}.PNG`)} alt='' />
+        </Modal>
+      )}
     </>
   )
 }

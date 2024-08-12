@@ -3,6 +3,7 @@ import React from 'react'
 import { Link, useLocation } from 'react-router-dom';
 import { EnvironmentFilled, PhoneFilled } from '@ant-design/icons';
 import { routes } from '../../routes';
+import { INFORMATION } from '../../constants';
 
 import './style.scss';
 
@@ -15,11 +16,11 @@ const Header = () => {
         <div className='container'>
           <div className='header-info-item'>
             <EnvironmentFilled size='large' />
-            <p>319 - C16 Lý Thường Kiệt, P.15, Q.11, Tp.HCM</p>
+            <p>{INFORMATION.ADDRESS}</p>
           </div>
           <div className='header-info-item'>
             <PhoneFilled size='large' />
-            <p>076 922 0162</p>
+            <p>{INFORMATION.PHONE}</p>
           </div>
         </div>
       </div>

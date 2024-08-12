@@ -610,7 +610,7 @@ export const CHAPTERS = [
     { title: 'Trên đường cao tốc', questions: 19 },
     { title: 'Trên đường núi', questions: 9 },
     { title: 'Trên đường quốc lộ', questions: 16 },
-    { title: 'Tình huống tai nạn' },
+    { title: 'Tình huống tai nạn', questions: 29 },
 ].reduce((acc, curr) => {
     const { start: pStart = 0, questions: pQuestions = 0 } = acc?.[acc?.length - 1] || {};
     return ([

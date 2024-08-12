@@ -127,6 +127,7 @@
     }
   }
   .content-right {
+    min-width: 30%;
     .total-score {
       font-size: 24px;
       span {
@@ -134,12 +135,17 @@
         color: red;
       }
     }
+    .ant-collapse {
+      margin-top: 20px;
+      .ant-collapse-header-text {
+        font-weight: 600;
+      }
+    }
     .question {
       display: flex;
       flex-wrap: wrap;
       justify-content: flex-start;
       gap: 12px 10px;
-      margin-top: 20px;
       .chapter-item {
         width: 100%;
         font-weight: bold;

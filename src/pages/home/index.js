@@ -4,9 +4,10 @@ import Slider from "react-slick";
 
 import './style.scss';
 import { Button, Rate } from 'antd';
-import { LeftOutlined, RightOutlined } from '@ant-design/icons';
+import { CheckOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { PATHS } from '../../routes';
 import { Link } from 'react-router-dom';
+import { getImg } from '../../constants';
 
 const arr = (list) => list ? Array.from(list) : []
 
@@ -106,28 +107,40 @@ const Home = () => {
               rate: 4.5,
               path: PATHS.B1,
               title: 'Bằng lái xe B1',
-              price: 10000000,
+              price: 17985000,
+              condition: 'Đủ 18 tuổi trở lên',
+              time: '3,5 tháng (1 tuần học 1 buổi)',
+              brief: 'Miễn phí',
+              schedule: 'Hỗ trợ linh động',
+              fee: 'Chia thành 3 lần đóng',
+              support: 'Học đậu 100%'
             }, {
               img: "https://mauweb.monamedia.net/daylaixeoto/wp-content/uploads/2019/10/course-03-300x225.jpg",
               rate: 4.5,
               path: PATHS.B2,
               title: 'Bằng lái xe B2',
-              price: 10000000,
+              price: 17985000,
+              condition: 'Đủ 18 tuổi trở lên',
+              time: '3,5 tháng (1 tuần học 1 buổi)',
+              brief: 'Miễn phí',
+              schedule: 'Hỗ trợ linh động',
+              fee: 'Chia thành 3 lần đóng',
+              support: 'Học đậu 100%'
             }, {
               img: "https://mauweb.monamedia.net/daylaixeoto/wp-content/uploads/2019/10/course-02-300x225.jpg",
               rate: 4.5,
               path: PATHS.C,
               title: 'Bằng lái xe C',
-              price: 10000000,
-            }, {
-              img: "https://mauweb.monamedia.net/daylaixeoto/wp-content/uploads/2019/10/course-01-300x225.jpg",
-              rate: 4.5,
-              path: PATHS.UPGRADE,
-              title: 'Nâng dấu',
-              price: 10000000,
+              price: 17985000,
+              condition: 'Đủ 21 tuổi trở lên',
+              time: '6 tháng (1 tuần học 1 buổi)',
+              brief: 'Miễn phí',
+              schedule: 'Hỗ trợ linh động',
+              fee: 'Chia thành 3 lần đóng',
+              support: 'Học đậu 100%'
             }
           ].map((item, iIdx) => (
-            <Link key={iIdx} className='course-list-item' to={item?.path}>
+            <div key={iIdx} className='course-list-item'>
               <img src={item?.img} alt="" />
               <div className='course-list-item-content'>
                 <div className='rate'>
@@ -135,9 +148,92 @@ const Home = () => {
                   <Rate disabled defaultValue={item?.rate} />
                 </div>
                 <p className='title'>{item?.title}</p>
-                <p className='price'>{item?.price}</p>
+                <p className='price'>{item?.price?.toLocaleString()?.replaceAll(',', '.')} VNĐ</p>
+                <div className='desc'>
+                  {[
+                    {
+                      title: 'Yêu cầu',
+                      label: item?.condition,
+                    }, {
+                      title: 'Thời gian học',
+                      label: item?.time,
+                    }, {
+                      title: 'Hồ sơ',
+                      label: item?.brief,
+                    }, {
+                      title: 'Lịch học',
+                      label: item?.schedule,
+                    }, {
+                      title: 'Học phí',
+                      label: item?.fee,
+                    }, {
+                      title: 'Hỗ trợ',
+                      label: item?.support,
+                    },
+                  ].map(item => (
+                    <div className='desc-item'>
+                      <CheckOutlined />
+                      <p>
+                        <b>{item?.title}:</b>
+                        {item?.label}
+                      </p>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </Link>
+            </div>
+          ))}
+        </div>
+      </Section>
+      <Section
+        title='Vì sao chọn chúng tôi?'
+        subTitle='Lorem Ipsum chỉ đơn giản là một đoạn văn bản giả, được dùng vào việc trình bày và dàn trang phục vụ cho in ấn.'
+      >
+        <div className='why-list'>
+          {[
+            {
+              img: 'first',
+              title: 'HỒ SƠ ĐĂNG KÝ ĐƠN GIẢN',
+              desc: 'Chỉ cần mang CMND/CCCD/Hộ chiếu nhân viên tư vấn sẽ hỗ trợ làm hồ sơ từ A – Z, miễn phí 100%, nhanh chóng chỉ mất 5 phút đồng hồ để ghi danh học lái xe ô tô.'
+            }, {
+              img: 'checklist',
+              title: 'TRANG THIẾT BỊ HIỆN ĐẠI',
+              desc: 'Cơ sở vật chất, hạ tầng học tập được đầu tư mạnh mẽ, bài bản và khoa học. Hệ thống phòng học, sân tập lái được xây dựng theo mô hình đào tạo Singapore, đạt chuẩn ISO 9001:2015.'
+            }, {
+              img: 'graduation',
+              title: 'DỊCH VỤ TỐT NHẤT',
+              desc: 'Với phương châm đào tạo đặt lợi ích của học viên lên hàng đầu, Trung tâm luôn mang đến những dịch vụ hỗ trợ tốt nhất. Chúng tôi cam kết chất lượng 100% như đã quảng cáo, ĐỀN HỌC PHÍ GẤP 3 LẦN nếu phát hiện trung tâm vi phạm hợp đồng.'
+            }, {
+              img: 'driver',
+              title: 'LỊCH HỌC LINH ĐỘNG',
+              desc: 'Học viên được tự do sắp xếp lựa chọn lịch học bằng lái xe ô tô theo thời gian rảnh của mình. Có các lớp học Sáng – Chiều – Tối diễn ra liên tục, kể cả cuối tuần Thứ 7 và Chủ Nhật.'
+            }, {
+              img: 'coins',
+              title: 'HỌC LÁI XE GẦN NHÀ',
+              desc: 'Cơ sở đào tạo, sân tập lái có mặt khắp 63 tỉnh thành trên cả nước, cam kết “nhà ở đâu học ở đó”. Tiết kiệm thời gian và chi phí đi lại cho học viên trong quá trình học lái xe ô tô.'
+            }, {
+              img: 'ranking',
+              title: 'HỖ TRỢ HỌC ĐẬU 100%',
+              desc: `Lộ trình đào tạo trung tâm rõ ràng, chuyên nghiệp và bài bản. Tỉ lệ học viên đậu hàng năm tại ${window.location.origin} luôn đạt từ 95% trở lên, trở thành địa chỉ học lái xe ô tô được nhiều học viên tin tưởng và lựa chọn nhất trên cả nước.`
+            }, {
+              img: 'change',
+              title: 'KỶ NIỆM 10 NĂM THÀNH LẬP TRUNG TÂM',
+              desc: `Hệ thống ${window.location.origin} chuyên cung cấp các khóa học lái xe ô tô cấp tốc, đảm bảo chất lượng đào tạo và tiết kiệm thời gian, chi phí cho học viên.`
+            }, {
+              img: 'dispatch',
+              title: 'TRỌN GÓI - TRẢ GÓP 0%',
+              desc: 'Chi phí khóa học trọn gói 100% ngay từ ban đầu, có thể chia học phí đóng thành nhiều đợt khác nhau, hỗ trợ trả góp với lãi suất 0%. Chỉ cần đóng trước từ 1 – 2 triệu là được sắp xếp lớp học ngay.'
+            }
+          ].map((w, wIdx) => (
+            <div key={wIdx} className='why-list-item'>
+              <div className='image'>
+                <hr />
+                <img src={getImg(`why/${w?.img}.png`)} alt="" />
+                <hr />
+              </div>
+              <p className='title'>{w?.title}</p>
+              <p className='desc'>{w?.desc}</p>
+            </div>
           ))}
         </div>
       </Section>

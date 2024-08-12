@@ -16,6 +16,7 @@ import Upgrade from './pages/upgrade';
 import './App.scss';
 import { Button } from 'antd';
 import { ArrowUpOutlined } from '@ant-design/icons';
+import Process from './pages/process';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Body>
           <Routes>
             <Route path={PATHS.HOME} Component={Home} />
+            <Route path={PATHS.PROCESS} Component={Process} />
             <Route path={PATHS.SIMULATION} Component={Simulation} />
             <Route path={PATHS.THEORY} Component={Theory} />
             <Route path={PATHS.B1} Component={B1} />

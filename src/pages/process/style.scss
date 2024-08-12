@@ -1,0 +1,26 @@
+.process-page {
+  max-width: 80%;
+  margin: auto;
+  .time-line {
+    &-step {
+      font-size: 16px;
+      font-weight: bold;
+    }
+    &-content {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 12px;
+      .title {
+        font-size: 16px;
+        font-weight: bold;
+      }
+      .desc {
+        font-size: 15px;
+        .danger {
+          color: red;
+        }
+      }
+    }
+  }
+}

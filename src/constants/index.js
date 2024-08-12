@@ -1,5 +1,10 @@
+export const getImg = (src = '') => `https://phatpham.sirv.com/images/${src}`;
+
 export const INFORMATION = {
-    ADDRESS: '319 - C16 Lý Thường Kiệt, P.15, Q.11, Tp.HCM',
-    PHONE: '076 922 0162',
-    FACEBOOK: 'https://www.facebook.com/thanhsamma'
+    GVHD: 'Trần Tuấn Thành',
+    ADDRESS: '205 Phạm Văn Thuận, Tân Tiến, Thành phố Biên Hòa, Đồng Nai',
+    PHONE: '038 439 4950',
+    EMAIL: 'trantuanthanh13dot2@gmail.com',
+    FACEBOOK: 'https://www.facebook.com/thanhsamma',
+    ZALO: 'https://zalo.me/0384394950'
 }
