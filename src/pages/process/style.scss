@@ -1,24 +1,73 @@
 .process-page {
-  max-width: 80%;
   margin: auto;
-  .time-line {
-    &-step {
-      font-size: 16px;
-      font-weight: bold;
-    }
-    &-content {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      margin-top: 12px;
-      .title {
-        font-size: 16px;
-        font-weight: bold;
+  .ant-timeline {
+    &-item {
+      &-label {
+        width: 350px !important;
+        img {
+          height: 200px;
+          width: 300px;
+          object-fit: fill;
+        }
       }
-      .desc {
-        font-size: 15px;
-        .danger {
-          color: red;
+      &-tail,
+      &-head {
+        inset-inline-start: 400px !important;
+      }
+      &-content {
+        inset-inline-start: 420px !important;
+        .time-line {
+          min-height: 230px;
+          &-step {
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+          }
+          &-content {
+            display: flex;
+            flex-direction: column;
+            .title,
+            .sub-title {
+              font-size: 18px;
+            }
+            .title {
+              font-weight: bold;
+              text-transform: uppercase;
+            }
+            .desc {
+              margin-top: 12px;
+              &-item,
+              .title-list {
+                font-size: 16px;
+              }
+              &-item {
+                padding-left: 12px;
+                position: relative;
+                span {
+                  color: red;
+                  font-weight: 500;
+                }
+                &::before {
+                  position: absolute;
+                  content: "";
+                  width: 4px;
+                  height: 4px;
+                  background-color: black;
+                  top: 12px;
+                  left: 0%;
+                  border-radius: 50%;
+                }
+              }
+              .title-list {
+                font-weight: 500;
+                color: red;
+                text-decoration: underline;
+              }
+              b.title-list {
+                color: black;
+              }
+            }
+          }
         }
       }
     }
