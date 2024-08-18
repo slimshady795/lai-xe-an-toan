@@ -13,6 +13,8 @@ import { getImg } from '../../constants';
 
 const { NOT_START, STARTED, PLAYING, PAUSE } = PLAY_STATUS;
 
+const getOldAnswer = () => JSON.parse(localStorage.getItem('answer') || null);
+
 const Simulation = () => {
   const [cQuestion, setCQuestion] = useState(1);
   const [result, setResult] = useState([]);
@@ -21,7 +23,7 @@ const Simulation = () => {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState(NOT_START);
   const [playTime, setPlayTime] = useState({ duration: 0, start: 0 });
-  const [answer, setAnswer] = useState({});
+  const [answer, setAnswer] = useState(getOldAnswer() || {});
 
   const videoRef = useRef(null);
   const controlRef = useRef(null);
@@ -78,15 +80,25 @@ const Simulation = () => {
       const percent = +(controlRef?.current?.progressBar?.style?.width || '')?.replace('%', '')
       const answerTime = formatTime((percent * playTime?.duration) / 100);
       const rIdx = result.findIndex(item => answerTime >= item?.start && answerTime <= item?.end);
+
+      const answer = {
+        time: answerTime,
+        point: rIdx >= 0 ? RANGE - rIdx : 0
+      }
+
+      localStorage.setItem('answer', JSON.stringify({ ...getOldAnswer(), [cQuestion]: answer }));
+
       return ({
         ...prev,
-        [cQuestion]: {
-          time: answerTime,
-          point: rIdx >= 0 ? RANGE - rIdx  : 0
-        }
+        [cQuestion]: answer
       });
     });
     onPause();
+  }
+
+  const onClear = () => {
+    setAnswer({});
+    localStorage.removeItem('answer');
   }
 
   const onSuggest = () => {
@@ -104,13 +116,14 @@ const Simulation = () => {
     setResult(getResult(cQuestionInfo))
   }, [cQuestion])
 
+
   return (
     <>
       <div className='simulation-page'>
         <div key={cQuestionInfo?.title} className='content-left'>
-          <div className='title'>
+          {/* <div className='title'>
             Câu {cQuestion}: {QUESTIONS?.[cQuestion - 1]?.title}
-          </div>
+          </div> */}
           <Spin tip="Loading..." spinning={loading}>
             <video
               ref={videoRef}
@@ -211,9 +224,18 @@ const Simulation = () => {
           )}
         </div>
         <div className='content-right'>
-          <p className='total-score'>
-            Tổng điểm: <span>{totalScore}</span>
-          </p>
+          <div className='score'>
+            <p className='total-score'>
+              Tổng điểm: <span>{totalScore}</span>
+            </p>
+            <Button
+              className='btn-clear'
+              shape="primary"
+              onClick={onClear}
+            >
+              Xóa điểm
+            </Button>
+          </div>
           <Collapse
             items={CHAPTERS.map((c, cIdx) => ({
               label: `Chương ${cIdx + 1}: ${c?.title} (${c?.start} đến câu ${c?.start + c?.questions})`,
