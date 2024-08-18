@@ -54,15 +54,15 @@ const Simulation = () => {
   }
 
   const onReplay = () => {
-    // if (status === NOT_START && !!cAnswer) {
+    if (status === NOT_START && !!cAnswer) {
       onPlay();
-    // } else {
-    //   setStatus(STARTED);
-    //   setPlayTime(prev => ({ ...prev, start: 0 }))
-    //   setAnswer(prev => ({ ...prev, [cQuestion]: null }))
-    //   videoRef?.current?.pause()
-    //   videoRef?.current?.currentTime && (videoRef.current.currentTime = 0);
-    // }
+    } else {
+      setStatus(STARTED);
+      setPlayTime(prev => ({ ...prev, start: 0 }))
+      setAnswer(prev => ({ ...prev, [cQuestion]: null }))
+      videoRef?.current?.pause()
+      videoRef?.current?.currentTime && (videoRef.current.currentTime = 0);
+    }
   }
 
   const onPrevious = () => {
