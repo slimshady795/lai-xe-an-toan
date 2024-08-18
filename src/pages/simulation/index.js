@@ -82,7 +82,7 @@ const Simulation = () => {
         ...prev,
         [cQuestion]: {
           time: answerTime,
-          point: rIdx >= 0 ? rIdx + 1 : 0
+          point: rIdx >= 0 ? RANGE - rIdx  : 0
         }
       });
     });
@@ -206,7 +206,7 @@ const Simulation = () => {
                   Câu {cQuestion + 1}
                 </Button>
               </div>
-              <p>đáp án đúng từ giây {formatTime(+cQuestionInfo.time_1)} đến giây {formatTime(+cQuestionInfo.time_2)}</p>
+              {/* <p>đáp án đúng từ giây {formatTime(+cQuestionInfo.time_1)} đến giây {formatTime(+cQuestionInfo.time_2)}</p> */}
             </>
           )}
         </div>
