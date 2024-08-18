@@ -27,6 +27,7 @@ const Simulation = () => {
 
   const videoRef = useRef(null);
   const controlRef = useRef(null);
+  const spaceRef = useRef();
 
   const cQuestionInfo = QUESTIONS?.[cQuestion - 1];
   const cAnswer = answer?.[cQuestion];
@@ -34,6 +35,7 @@ const Simulation = () => {
   const isLoaded = playTime?.duration > 0;
 
   const disableSpace = !isLoaded || [NOT_START, STARTED].includes(status) || isNumber(cAnswer?.time);
+
   const disablePrev = !isLoaded || cQuestion <= 1;
   const disableNext = !isLoaded || cQuestion >= QUESTIONS?.length;
 
@@ -111,19 +113,32 @@ const Simulation = () => {
   }
 
   useEffect(() => {
+    const cb = (e) => {
+      if (e.keyCode === 32 && e.target === document.body) {
+        e.preventDefault();
+        spaceRef?.current?.click?.();
+      }
+    }
+
+    window.addEventListener('keydown', cb);
+    return () => {
+      window.removeEventListener('keydown', cb);
+    }
+  }, []);
+
+  useEffect(() => {
     setStatus(NOT_START);
     setPlayTime({ duration: 0, start: 0 });
     setResult(getResult(cQuestionInfo))
   }, [cQuestion])
 
-
   return (
     <>
       <div className='simulation-page'>
         <div key={cQuestionInfo?.title} className='content-left'>
-          {/* <div className='title'>
+          <div className='title'>
             Câu {cQuestion}: {QUESTIONS?.[cQuestion - 1]?.title}
-          </div> */}
+          </div>
           <Spin tip="Loading..." spinning={loading}>
             <video
               ref={videoRef}
@@ -199,6 +214,7 @@ const Simulation = () => {
                   Câu {cQuestion - 1}
                 </Button>
                 <Button
+                  ref={spaceRef}
                   className='btn-space'
                   shape="primary"
                   size='large'
